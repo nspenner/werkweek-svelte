@@ -3,10 +3,7 @@
   export let defaultColors = [
     "#ff0000",
     "#0000ff",
-    "#008000",
-    "#ff0000",
-    "#0000ff",
-        "#0000ff"
+    "#008000"
   ];
   export let selectedColor = "";
 
@@ -36,8 +33,8 @@
   }
 
   input {
-      width: 90px;
-      height: 30px;
+    width: 90px;
+    height: 30px;
   }
 </style>
 
@@ -51,7 +48,7 @@
         }} />
     {/each}
     <div>
-      <input type="text" name="" id="" bind:value={selectedColor}/>
+      <input type="text" name="" id="" bind:value={selectedColor} />
     </div>
   </div>
 
