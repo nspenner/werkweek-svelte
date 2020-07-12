@@ -1,14 +1,20 @@
 <script>
+  import { createEventDispatcher } from "svelte";
+  const dispatch = createEventDispatcher();
+
   import Swatch from "./Swatch.svelte";
-  export let defaultColors = [
-    "#ff0000",
-    "#0000ff",
-    "#008000"
-  ];
+  export let defaultColors = ["#ff0000", "#0000ff", "#008000"];
   export let selectedColor = "";
 
   let setColor = color => {
     selectedColor = color;
+  };
+
+  const handleKeyDown = e => {
+    const code = e.keyCode ? e.keyCode : e.which;
+    if (code === 13) {
+      dispatch("close");
+    }
   };
 </script>
 
@@ -48,7 +54,12 @@
         }} />
     {/each}
     <div>
-      <input type="text" name="" id="" bind:value={selectedColor} />
+      <input
+        type="text"
+        name=""
+        id=""
+        bind:value={selectedColor}
+        on:keydown={handleKeyDown} />
     </div>
   </div>
 

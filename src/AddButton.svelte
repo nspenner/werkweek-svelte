@@ -12,7 +12,7 @@
     color: white;
   }
 
-  button:hover {
+  button:hover, button:focus {
     background-color: hsl(1, 70%, 48%);
   }
 </style>

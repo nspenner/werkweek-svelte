@@ -1,7 +1,8 @@
 <script>
   import { createEventDispatcher } from "svelte";
-  import ColorPicker from "./ColorPicker.svelte";
   const dispatch = createEventDispatcher();
+
+  import ColorPicker from "./ColorPicker.svelte";
 
   export let id;
 
@@ -46,6 +47,13 @@
     });
   };
 
+  const handleKeyDown = e => {
+    const code = e.keyCode ? e.keyCode : e.which;
+    if (code === 13) {
+      e.target.blur();
+    }
+  };
+
   $: centiseconds = ("0" + (Math.floor(timerTime / 10) % 100)).slice(-2);
   $: seconds = ("0" + (Math.floor(timerTime / 1000) % 60)).slice(-2);
   $: minutes = ("0" + (Math.floor(timerTime / 60000) % 60)).slice(-2);
@@ -65,6 +73,11 @@
     padding: 1rem;
   }
 
+  .time-container {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+  }
+
   .button-group {
     display: flex;
   }
@@ -72,11 +85,17 @@
   .button-group > button {
     font-family: "Poppins";
     background: white;
-    border-radius: 6px;
+    border: none;
+    border-radius: 8px;
     padding: 4px 8px;
     font-size: 14px;
     cursor: pointer;
     margin-right: 16px;
+  }
+
+  .button-group > button:focus,
+  .button-group > button:hover {
+    background: #e6e6e6;
   }
 
   .color-picker-button-container {
@@ -101,6 +120,11 @@
     border: none;
     cursor: pointer;
     background-color: var(--background-color);
+  }
+
+  .color-picker-button-container > button:focus,
+  .color-picker-button-container > button:hover {
+    opacity: 0.75;
   }
 
   .cover {
@@ -150,16 +174,20 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    font-size: 1.5rem;
   }
 
-  .close-button:hover {
+  .close-button:hover,
+  .close-button:focus {
     background: rgba(0, 0, 0, 0.1);
   }
 </style>
 
 <div class="stopwatch-container" style="--background-color: {backgroundColor}">
   <div class="row">
-    <div>{hours} : {minutes} : {seconds} : {centiseconds}</div>
+    <div class="time-container">
+      {hours} : {minutes} : {seconds} : {centiseconds}
+    </div>
     <button
       class="close-button"
       on:click={() => {
@@ -196,7 +224,7 @@
   </div>
   <div class="row">
     <div class="textarea-container">
-      <textarea rows="1" value="Stopwatch" />
+      <textarea rows="1" value="Stopwatch" on:keydown={handleKeyDown} />
     </div>
     <div class="color-picker-button-container">
       <button
@@ -206,7 +234,8 @@
       {#if showColorPicker}
         <ColorPicker
           bind:selectedColor={backgroundColor}
-          defaultColors={colors} />
+          defaultColors={colors}
+          on:close={() => (showColorPicker = false)} />
         <div class="cover" on:click={() => (showColorPicker = false)} />
       {/if}
     </div>
