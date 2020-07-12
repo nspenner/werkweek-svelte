@@ -90,6 +90,7 @@
     align-items: center;
     box-shadow: 0 2px 4px -1px rgba(0, 0, 0, 0.5);
     position: relative;
+    align-self: center;
   }
 
   .color-picker-button-container > button {
@@ -110,6 +111,11 @@
     left: 0px;
   }
 
+  .textarea-container {
+    flex: 1;
+    padding-right: 1rem;
+  }
+
   textarea {
     resize: none;
     border: none;
@@ -117,9 +123,9 @@
     color: white;
     font-family: "Poppins", sans-serif;
     width: 100%;
-    text-align: center;
-    height: 27px;
-    padding: 0;
+    text-align: start;
+    padding: 8px;
+    margin: 0;
   }
 
   textarea:focus {
@@ -188,20 +194,21 @@
       <button on:click={stopTimer}>Stop</button>
     {/if}
   </div>
-  <div>
-    <textarea rows="1" value="Stopwatch" />
+  <div class="row">
+    <div class="textarea-container">
+      <textarea rows="1" value="Stopwatch" />
+    </div>
+    <div class="color-picker-button-container">
+      <button
+        on:click={() => {
+          showColorPicker = true;
+        }} />
+      {#if showColorPicker}
+        <ColorPicker
+          bind:selectedColor={backgroundColor}
+          defaultColors={colors} />
+        <div class="cover" on:click={() => (showColorPicker = false)} />
+      {/if}
+    </div>
   </div>
-  <div class="color-picker-button-container">
-    <button
-      on:click={() => {
-        showColorPicker = true;
-      }} />
-    {#if showColorPicker}
-      <ColorPicker
-        bind:selectedColor={backgroundColor}
-        defaultColors={colors} />
-      <div class="cover" on:click={() => (showColorPicker = false)} />
-    {/if}
-  </div>
-
 </div>
